@@ -9,6 +9,7 @@ from googlesearch import search
 import datetime
 
 bot = commands.Bot(command_prefix='/')
+client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
 
 @bot.event
@@ -17,7 +18,7 @@ async def on_command_error(ctx, error):
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
     await ctx.send(error_msg)
 
-@bot.event
+@client.event
 async def on_message(message):
     if message.author.bot:
         return
@@ -58,5 +59,7 @@ async def loop():
             await text_channel.send('21時になりました')
 
 loop.start()
+
+client.run(token)
 
 bot.run(token)
