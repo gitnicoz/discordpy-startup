@@ -8,29 +8,33 @@ from discord.ext import tasks
 from googlesearch import search
 import datetime
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
-@client.event
+@bot.event
 async def on_command_error(ctx, error):
     orig_error = getattr(error, "original", error)
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
     await ctx.send(error_msg)
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author.bot:
-        return
-    if message.content == 'おみくじ':
-        omikuji = ['大吉', '吉', '中吉', '小吉', '末吉', '凶', '大凶']
-        await message.channel.send(random.choice(omikuji) + 'です')
+    try:
+        if message.author.bot:
+            return
+    except Exception:
+        if message.content == 'おみくじ':
+            omikuji = ['大吉', '吉', '中吉', '小吉', '末吉', '凶', '大凶']
+            await message.channel.send(random.choice(omikuji) + 'です')
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author.bot:
-        return
-    if message.content.startswith('グーグル'):
-        url = message.content[5:]
+    try:
+        if message.author.bot:
+            return
+    except Exception:
+        if message.content.startswith('グーグル'):
+            url = message.content[5:]
         if url == '':
             await message.channel.send('キーワードを入力してください 使い方：グーグル <キーワード>')
         else:
