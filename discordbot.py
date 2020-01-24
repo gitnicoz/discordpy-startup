@@ -8,22 +8,16 @@ from discord.ext import tasks
 from googlesearch import search
 import datetime
 
-bot = commands.Bot(command_prefix='/')
+client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
 
-
-@bot.event
+@client.event
 async def on_command_error(ctx, error):
     orig_error = getattr(error, "original", error)
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
     await ctx.send(error_msg)
 
-
-@bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
-
-@bot.command()
+@client.event
 async def on_message(message):
     if message.author.bot:
         return
@@ -31,7 +25,7 @@ async def on_message(message):
         omikuji = ['大吉', '吉', '中吉', '小吉', '末吉', '凶', '大凶']
         await message.channel.send(random.choice(omikuji) + 'です')
 
-@bot.command()
+@client.event
 async def on_message(message):
     if message.author.bot:
         return
@@ -73,4 +67,4 @@ async def loop():
 
 loop.start()
 
-bot.run(token)
+client.run(token)
