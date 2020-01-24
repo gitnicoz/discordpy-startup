@@ -1,6 +1,12 @@
 from discord.ext import commands
 import os
 import traceback
+import discord
+import sys
+import random
+from discord.ext import tasks
+from googlesearch import search
+import datetime
 
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
@@ -43,7 +49,7 @@ async def on_message(message):
                     await message.channel.send('検索結果の上位3件を表示しました')
                     break
 
-@tasks.loop(seconds=60)
+@tasks.loop(seconds=5)
 async def loop():
     text_channel = client.get_channel(id=645940109610450954)
     date = datetime.datetime.now()
