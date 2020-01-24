@@ -8,7 +8,6 @@ from discord.ext import tasks
 from googlesearch import search
 import datetime
 
-client = discord.Client()
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
@@ -24,7 +23,7 @@ async def on_command_error(ctx, error):
 async def ping(ctx):
     await ctx.send('pong')
 
-@client.event
+@bot.event
 async def on_message(message):
     if message.author.bot:
         return
@@ -32,7 +31,7 @@ async def on_message(message):
         omikuji = ['大吉', '吉', '中吉', '小吉', '末吉', '凶', '大凶']
         await message.channel.send(random.choice(omikuji) + 'です')
 
-@client.event
+@bot.event
 async def on_message(message):
     if message.author.bot:
         return
@@ -73,7 +72,5 @@ async def loop():
             await text_channel.send('21時になりました')
 
 loop.start()
-
-client.run(token)
 
 bot.run(token)
