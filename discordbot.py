@@ -8,6 +8,7 @@ from discord.ext import tasks
 from googlesearch import search
 import datetime
 
+client = discord.Client()
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
