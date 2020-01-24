@@ -19,25 +19,13 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
-    try:
-        if message.author.bot:
-            return
-    except Exception:
-        if message.content == 'おみくじ':
-            omikuji = ['大吉', '吉', '中吉', '小吉', '末吉', '凶', '大凶']
-            await message.channel.send(random.choice(omikuji) + 'です')
-
-@bot.event
-async def on_message(message):
-    try:
-        if message.author.bot:
-            return
-    except Exception:
-        if message.content.startswith('グーグル'):
-            url = message.content[5:]
-        if url == '':
-            await message.channel.send('キーワードを入力してください 使い方：グーグル <キーワード>')
-        else:
+    if message.author.bot:
+        return
+    if message.content.startswith('グーグル'):
+        url = message.content[5:]
+    if url == '':
+        await message.channel.send('キーワードを入力してください 使い方：グーグル <キーワード>')
+    else:
             await message.channel.send(url + ' の検索結果を表示します')
             count = 0
             for url in search(url, lang="jp", num=3):
@@ -71,4 +59,4 @@ async def loop():
 
 loop.start()
 
-client.run(token)
+bot.run(token)
