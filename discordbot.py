@@ -23,7 +23,7 @@ async def on_command_error(ctx, error):
 async def ping(ctx):
     await ctx.send('pong')
 
-@bot.event
+@bot.command()
 async def on_message(message):
     if message.author.bot:
         return
@@ -31,7 +31,7 @@ async def on_message(message):
         omikuji = ['大吉', '吉', '中吉', '小吉', '末吉', '凶', '大凶']
         await message.channel.send(random.choice(omikuji) + 'です')
 
-@bot.event
+@bot.command()
 async def on_message(message):
     if message.author.bot:
         return
