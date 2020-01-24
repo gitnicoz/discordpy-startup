@@ -3,13 +3,10 @@ import os
 import traceback
 import discord
 import sys
-import random
 from discord.ext import tasks
-from googlesearch import search
 import datetime
 
 bot = commands.Bot(command_prefix='/')
-client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
 
 @bot.event
@@ -17,24 +14,6 @@ async def on_command_error(ctx, error):
     orig_error = getattr(error, "original", error)
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
     await ctx.send(error_msg)
-
-@client.event
-async def on_message(message):
-    if message.author.bot:
-        return
-    if message.content.startswith('グーグル'):
-        url = message.content[5:]
-    if url == '':
-        await message.channel.send('キーワードを入力してください 使い方：グーグル <キーワード>')
-    else:
-            await message.channel.send(url + ' の検索結果を表示します')
-            count = 0
-            for url in search(url, lang="jp", num=3):
-                await message.channel.send(url)
-                count += 1
-                if count == 3:
-                    await message.channel.send('検索結果の上位3件を表示しました')
-                    break
 
 @tasks.loop(seconds=5)
 async def loop():
@@ -59,7 +38,5 @@ async def loop():
             await text_channel.send('21時になりました')
 
 loop.start()
-
-client.run(token)
 
 bot.run(token)
